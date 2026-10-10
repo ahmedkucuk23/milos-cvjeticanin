@@ -48,12 +48,25 @@ export const metadata: Metadata = {
     siteName: "Warrior Stand-Up Program",
     locale: "sr_Latn",
     type: "website",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 1200,
+        alt: "Warrior Stand-Up Program - Miloš Cvjetićanin",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Warrior Stand-Up Program — Online MMA program",
     description:
       "Nauči da se biješ pravilno. 12 sedmica strukturiranog MMA treninga od profesionalnog borca.",
+    images: ["/images/og-image.jpg"],
+  },
+  icons: {
+    icon: "/favicon.png",
+    apple: "/apple-touch-icon.png",
   },
   alternates: {
     canonical: "https://warriorstandup.com",
