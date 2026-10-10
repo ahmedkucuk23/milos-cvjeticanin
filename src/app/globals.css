@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+:root {
+  --white: #FFFFFF;
+  --light-gray: #D9D9D1;
+  --dark-gray: #2F2F31;
+  --coral: #F15959;
+  --coral-dark: #D94444;
+  --black: #000000;
+  --black-light: #1A1A1C;
+}
+
+@theme inline {
+  --color-light-gray: var(--light-gray);
+  --color-dark-gray: var(--dark-gray);
+  --color-coral: var(--coral);
+  --color-coral-dark: var(--coral-dark);
+  --color-black-light: var(--black-light);
+  --font-heading: var(--font-bebas-neue);
+  --font-body: var(--font-manrope);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scroll reveal */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  animation: reveal-up 0.6s ease-out forwards;
+  animation-play-state: paused;
+}
+
+.reveal.visible {
+  animation-play-state: running;
+}
+
+.reveal-delay-1 { animation-delay: 0.08s; }
+.reveal-delay-2 { animation-delay: 0.16s; }
+.reveal-delay-3 { animation-delay: 0.24s; }
+.reveal-delay-4 { animation-delay: 0.32s; }
+.reveal-delay-5 { animation-delay: 0.40s; }
+.reveal-delay-6 { animation-delay: 0.48s; }
+.reveal-delay-7 { animation-delay: 0.56s; }
+
+/* FAQ accordion */
+details summary {
+  list-style: none;
+  cursor: pointer;
+}
+details summary::-webkit-details-marker {
+  display: none;
+}
+details[open] summary .faq-chevron {
+  transform: rotate(180deg);
+}
+details[open] .faq-body {
+  animation: reveal-up 0.3s ease-out forwards;
+}
+
+/* Scrollbar hide */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
