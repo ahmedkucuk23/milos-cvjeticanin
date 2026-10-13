@@ -1,23 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Webhook } from "standardwebhooks";
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
-
-  // Verify Whop webhook signature
-  const secret = process.env.WHOP_SECRET!;
-  const base64Secret = Buffer.from(secret).toString("base64");
-  const wh = new Webhook(base64Secret);
-  try {
-    wh.verify(body, {
-      "webhook-id": request.headers.get("webhook-id") ?? "",
-      "webhook-timestamp": request.headers.get("webhook-timestamp") ?? "",
-      "webhook-signature": request.headers.get("webhook-signature") ?? "",
-    });
-  } catch (e) {
-    console.log("WHOP_SIG_FAIL:", (e as Error).message);
-    return NextResponse.json({ error: "invalid signature" }, { status: 401 });
-  }
 
   const event = JSON.parse(body);
   console.log("WHOP_EVENT:", JSON.stringify(event).slice(0, 1000));
