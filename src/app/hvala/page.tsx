@@ -58,7 +58,7 @@ export default function HvalaPage() {
                   <a href="https://apps.apple.com/us/app/whop/id1600181492" target="_blank" rel="noopener noreferrer" className="inline-block bg-white/10 hover:bg-white/15 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
                     App Store
                   </a>
-                  <a href="https://play.google.com/store/apps/details?id=com.whop.app" target="_blank" rel="noopener noreferrer" className="inline-block bg-white/10 hover:bg-white/15 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                  <a href="https://play.google.com/store/apps/details?id=com.whop.whopapp&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" className="inline-block bg-white/10 hover:bg-white/15 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
                     Google Play
                   </a>
                 </div>
