@@ -1,11 +1,220 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { loadWhop } from "@whop/elements";
 import { Checkout, CheckoutElement, WhopElements } from "@whop/elements-react";
 
 const CTA_LINK = "#pricing";
+
+/* ─── Language detection hook ─── */
+type Locale = "sr" | "en";
+
+function useLocale(): Locale {
+  const [locale, setLocale] = useState<Locale>("sr");
+  useEffect(() => {
+    const lang = navigator.language?.toLowerCase() || "";
+    // Dutch (nl), English (en), and other non-Balkan languages → English
+    const balkan = ["sr", "hr", "bs", "me", "mk", "sl"];
+    const isBalkan = balkan.some((b) => lang.startsWith(b));
+    if (!isBalkan) setLocale("en");
+  }, []);
+  return locale;
+}
+
+const t = {
+  sr: {
+    cta: "ZAPOČNI",
+    heroSub: "Nauči da se biješ — pravilno.",
+    heroDesc: "Online program udaračkih borilačkih vještina od Miloša Cvjetićanina. 12 sedmica. Tvoj tempo. Tvoj ring.",
+    offerExpires: "Ponuda ističe za",
+    days: "DANA", hours: "SATI", min: "MIN", sec: "SEK",
+    startProgram: "ZAPOČNI PROGRAM",
+    watchVideo: "POGLEDAJ",
+    videoSub: "Miloš ti objašnjava šta te čeka u programu.",
+    hostedOn: "Ovaj program je hostan na:",
+    fullProgram: "FULL PROGRAM.",
+    onePlatform: "JEDNA PLATFORMA.",
+    whopDesc: <>Whop je <strong className="text-white">#1 platforma na svijetu</strong> za online kurseve i coaching. Preko{" "}<strong className="text-white">$2.5 milijardi</strong> je procesirano kroz kurseve na Whopu. Sigurna plaćanja, trenutan pristup, i sve na jednom mjestu.</>,
+    whyWhop: "ZAŠTO",
+    secureCheckout: "Siguran Checkout",
+    secureCheckoutDesc: "Kartica, PayPal ili Apple Pay. Podaci tvojih kupaca su 100% zaštićeni.",
+    instantAccess: "Trenutan Pristup",
+    instantAccessDesc: "Sekund nakon što platiš, unutra si. Svi moduli, video lekcije i materijali — otključani odmah.",
+    communityIncluded: "Zajednica Uključena",
+    communityIncludedDesc: "Grupni chat, podrška članova i motivacija — sve u jednoj aplikaciji.",
+    lifetimeAccess: "Doživotan Pristup",
+    lifetimeAccessDesc: "Kupi jednom — tvoje zauvijek. Pristup sa telefona, tableta ili desktopa.",
+    stopWasting: "PRESTANI DA",
+    wasteTime: "GUBIŠ VRIJEME",
+    problemSub: "Ako se prepoznaješ u nečemu od ovoga, ovaj program je za tebe.",
+    pain1: "Gledaš YouTube tutoriale koji nemaju strukturu",
+    pain2: "Treniraš godinama ali tehnika ti stoji",
+    pain3: "Nemaš pristup kvalitetnom treneru",
+    pain4: "Ne znaš šta vježbati i kojim redom",
+    whoIs: "KO JE",
+    aboutP1: "Miloš Cvjetićanin, poznat kao CobraMMA, je profesionalni MMA borac sa više od decenije iskustva u borilačkim sportovima. Sa preko 100 borbi iza sebe, Miloš je prošao put od početnika do profesionalca — i sada to znanje prenosi tebi kroz strukturirani online program.",
+    aboutP2: "Ovo nije teorija. Ovo je program od borca koji je bio u ringu, koji zna šta funkcioniše pod pritiskom i koji te može naučiti da se biješ pravilno.",
+    stat1: "godina u borilačkim sportovima", stat2: "profesionalni MMA borac", stat3: "borbi u karijeri", stat4: "pristup programu",
+    whatYouGet: "ŠTA",
+    get: "DOBIJAŠ",
+    featuresSub: "Sve što ti treba da savladaš stand-up borbu — na jednom mjestu.",
+    feat1Title: "12-sedmični program", feat1Desc: "Strukturirani plan treninga koji te vodi korak po korak od početnika do borca.",
+    feat2Title: "Video lekcije", feat2Desc: "Svaka tehnika detaljno objašnjena i demonstrirana na video snimku.",
+    feat3Title: "Progresivni sistem", feat3Desc: "Od osnova do naprednih kombinacija — sistem dizajniran za konstantan napredak.",
+    feat4Title: "Udarci & kombinacije", feat4Desc: "Džeb, kros, aperkot, udarci nogama, kolenima — sve što ti treba za stand-up borbu.",
+    feat5Title: "Privatna zajednica", feat5Desc: "Pristupi grupi istomišljenika, postavljaj pitanja i dijeli napredak.",
+    feat6Title: "Kondiciona priprema", feat6Desc: "Plan kondicione pripreme koji prati program borbe — snaga, izdržljivost, eksplozivnost.",
+    howItWorks: "KAKO",
+    works: "FUNKCIONIŠE",
+    stepsSub: "Tri jednostavna koraka do tvoje transformacije.",
+    step1Title: "Prijavi se", step1Desc: "Klikni na dugme, završi uplatu i odmah dobij pristup cijelom programu.",
+    step2Title: "Prati lekcije", step2Desc: "Gledaj video lekcije svojim tempom. Svaka sedmica donosi nove tehnike i kombinacije.",
+    step3Title: "Postani borac", step3Desc: "Vježbaj, napreduj i razvij stand-up igru koja radi u ringu i na ulici.",
+    joinWarrior: "PRIDRUŽI SE",
+    warriorProgram: "WARRIOR PROGRAMU",
+    pricingSub: "Jednokratna uplata. Doživotni pristup. Bez skrivenih troškova.",
+    oneTimePayment: "jednokratna uplata",
+    pf1: "12 sedmica strukturiranog programa",
+    pf2: "Video lekcije svake tehnike",
+    pf3: "Progresivni sistem treninga",
+    pf4: "Udarci, kombinacije, kretanje, odbrana",
+    pf5: "Plan kondicione pripreme",
+    pf6: "Pristup privatnoj zajednici",
+    pf7: "Doživotni pristup materijalu",
+    pf8: "Besplatna ažuriranja programa",
+    faqTitle: "ČESTA",
+    faqHighlight: "PITANJA",
+    faq1q: "Da li je program za početnike?",
+    faq1a: "Da. Program je dizajniran tako da može pratiti svako — od potpunog početnika do iskusnijeg borca koji želi unaprijediti stand-up tehniku. Kreće se od osnova i postepeno se gradi.",
+    faq2q: "Da li mi treba oprema za trening?",
+    faq2a: "Za početak ti trebaju samo rukavice i vreća za udaranje. Ako nemaš vreću, mnoge vježbe možeš raditi i sa shadow boxing-om. Kako napreduješ, preporučujemo i štitnike.",
+    faq3q: "Koliko vremena dnevno treba izdvojiti?",
+    faq3a: "Program je dizajniran za 45-60 minuta treninga, 3-5 puta sedmično. Ali možeš ga prilagoditi svom rasporedu — sve lekcije su dostupne 24/7.",
+    faq4q: "Šta ako propustim sedmicu?",
+    faq4a: "Nema brige. Imaš doživotni pristup programu, pa možeš nastaviti kad god želiš. Nema pritiska — radi svojim tempom.",
+    faq5q: "Da li mogu postavljati pitanja?",
+    faq5a: "Naravno. Imaš pristup privatnoj zajednici gdje možeš postavljati pitanja, dijeliti snimke svojih tehnika i dobiti povratnu informaciju.",
+    faq6q: "Kakve tehnike program pokriva?",
+    faq6a: "Program pokriva kompletnu stand-up igru: džeb, kros, aperkot, huk, udarce nogama (low kick, middle kick, head kick), udarce koljenima, kombinacije, footwork, odbranu i kontra-napade.",
+    faq7q: "Da li je ovo samo za MMA borce?",
+    faq7a: "Ne. Program je koristan za svakoga ko želi naučiti da se bije pravilno — bilo da planiraš takmičenje, treniraš za samoodbranu ili jednostavno želiš naučiti borilačke vještine.",
+    faq8q: "Kako izgleda pristup programu?",
+    faq8a: "Nakon uplate dobijaš pristup online platformi sa svim video lekcijama, planom treninga i zajednicom. Možeš pristupiti sa telefona, tableta ili kompjutera.",
+    footerRights: "Warrior Stand-Up Program. Sva prava zadržana.",
+  },
+  en: {
+    cta: "START NOW",
+    heroSub: "Learn to fight — the right way.",
+    heroDesc: "Online striking & martial arts program by Miloš Cvjetićanin. 12 weeks. Your pace. Your ring.",
+    offerExpires: "Offer expires in",
+    days: "DAYS", hours: "HRS", min: "MIN", sec: "SEC",
+    startProgram: "START PROGRAM",
+    watchVideo: "WATCH THE",
+    videoSub: "Miloš explains what awaits you in the program.",
+    hostedOn: "This program is hosted on:",
+    fullProgram: "FULL PROGRAM.",
+    onePlatform: "ONE PLATFORM.",
+    whopDesc: <>Whop is the <strong className="text-white">#1 platform in the world</strong> for online courses and coaching. Over{" "}<strong className="text-white">$2.5 billion</strong> has been processed through courses on Whop. Secure payments, instant access, and everything in one place.</>,
+    whyWhop: "WHY",
+    secureCheckout: "Secure Checkout",
+    secureCheckoutDesc: "Card, PayPal or Apple Pay. Your data is 100% protected.",
+    instantAccess: "Instant Access",
+    instantAccessDesc: "The second you pay, you're in. All modules, video lessons and materials — unlocked immediately.",
+    communityIncluded: "Community Included",
+    communityIncludedDesc: "Group chat, member support and motivation — all in one app.",
+    lifetimeAccess: "Lifetime Access",
+    lifetimeAccessDesc: "Buy once — yours forever. Access from phone, tablet or desktop.",
+    stopWasting: "STOP",
+    wasteTime: "WASTING TIME",
+    problemSub: "If any of this sounds familiar, this program is for you.",
+    pain1: "Watching YouTube tutorials with no structure",
+    pain2: "Training for years but your technique is stuck",
+    pain3: "No access to a quality coach",
+    pain4: "Don't know what to practice or in what order",
+    whoIs: "WHO IS",
+    aboutP1: "Miloš Cvjetićanin, known as CobraMMA, is a professional MMA fighter with over a decade of experience in martial arts. With over 100 fights under his belt, Miloš has gone from beginner to professional — and now passes that knowledge to you through a structured online program.",
+    aboutP2: "This isn't theory. This is a program from a fighter who's been in the ring, who knows what works under pressure, and who can teach you to fight the right way.",
+    stat1: "years in martial arts", stat2: "professional MMA fighter", stat3: "fights in career", stat4: "access to program",
+    whatYouGet: "WHAT YOU",
+    get: "GET",
+    featuresSub: "Everything you need to master stand-up fighting — in one place.",
+    feat1Title: "12-week program", feat1Desc: "A structured training plan that takes you step by step from beginner to fighter.",
+    feat2Title: "Video lessons", feat2Desc: "Every technique explained in detail and demonstrated on video.",
+    feat3Title: "Progressive system", feat3Desc: "From basics to advanced combinations — a system designed for constant progress.",
+    feat4Title: "Strikes & combos", feat4Desc: "Jab, cross, uppercut, kicks, knees — everything you need for stand-up fighting.",
+    feat5Title: "Private community", feat5Desc: "Join a group of like-minded people, ask questions and share your progress.",
+    feat6Title: "Conditioning plan", feat6Desc: "A conditioning plan that follows the fight program — strength, endurance, explosiveness.",
+    howItWorks: "HOW IT",
+    works: "WORKS",
+    stepsSub: "Three simple steps to your transformation.",
+    step1Title: "Sign up", step1Desc: "Click the button, complete payment and get instant access to the entire program.",
+    step2Title: "Follow lessons", step2Desc: "Watch video lessons at your own pace. Each week brings new techniques and combinations.",
+    step3Title: "Become a fighter", step3Desc: "Practice, progress and develop a stand-up game that works in the ring and on the street.",
+    joinWarrior: "JOIN THE",
+    warriorProgram: "WARRIOR PROGRAM",
+    pricingSub: "One-time payment. Lifetime access. No hidden fees.",
+    oneTimePayment: "one-time payment",
+    pf1: "12 weeks of structured program",
+    pf2: "Video lessons for every technique",
+    pf3: "Progressive training system",
+    pf4: "Strikes, combos, movement, defense",
+    pf5: "Conditioning plan",
+    pf6: "Access to private community",
+    pf7: "Lifetime access to all materials",
+    pf8: "Free program updates",
+    faqTitle: "FREQUENTLY ASKED",
+    faqHighlight: "QUESTIONS",
+    faq1q: "Is this program for beginners?",
+    faq1a: "Yes. The program is designed so anyone can follow along — from complete beginners to more experienced fighters looking to improve their stand-up technique. It starts from the basics and builds gradually.",
+    faq2q: "Do I need equipment for training?",
+    faq2a: "To start, you only need gloves and a heavy bag. If you don't have a bag, many exercises can be done with shadow boxing. As you progress, we also recommend shin guards.",
+    faq3q: "How much time per day do I need?",
+    faq3a: "The program is designed for 45-60 minutes of training, 3-5 times per week. But you can adjust it to your schedule — all lessons are available 24/7.",
+    faq4q: "What if I miss a week?",
+    faq4a: "No worries. You have lifetime access to the program, so you can continue whenever you want. No pressure — work at your own pace.",
+    faq5q: "Can I ask questions?",
+    faq5a: "Of course. You have access to a private community where you can ask questions, share videos of your techniques and get feedback.",
+    faq6q: "What techniques does the program cover?",
+    faq6a: "The program covers the complete stand-up game: jab, cross, uppercut, hook, kicks (low kick, middle kick, head kick), knee strikes, combinations, footwork, defense and counter-attacks.",
+    faq7q: "Is this only for MMA fighters?",
+    faq7a: "No. The program is useful for anyone who wants to learn to fight properly — whether you plan to compete, train for self-defense, or simply want to learn martial arts.",
+    faq8q: "How do I access the program?",
+    faq8a: "After payment, you get access to an online platform with all video lessons, training plan and community. You can access it from your phone, tablet or computer.",
+    footerRights: "Warrior Stand-Up Program. All rights reserved.",
+  },
+};
+
+/* ─── Countdown hook (7 days from first visit) ─── */
+function useCountdown() {
+  const [timeLeft, setTimeLeft] = useState({ days: 7, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const STORAGE_KEY = "warrior_countdown_end";
+    let endTime = localStorage.getItem(STORAGE_KEY);
+    if (!endTime) {
+      const end = Date.now() + 7 * 24 * 60 * 60 * 1000;
+      localStorage.setItem(STORAGE_KEY, String(end));
+      endTime = String(end);
+    }
+    const deadline = Number(endTime);
+
+    const tick = () => {
+      const diff = Math.max(0, deadline - Date.now());
+      setTimeLeft({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  return timeLeft;
+}
 
 /* ─── Scroll reveal hook ─── */
 function useReveal() {
@@ -221,6 +430,9 @@ const STATS = [
    ═══════════════════════════════════════════ */
 
 export default function Home() {
+  const locale = useLocale();
+  const l = t[locale];
+  const countdown = useCountdown();
   const checkoutFired = useRef(false);
 
   // Fire InitiateCheckout when pricing section becomes visible
@@ -249,14 +461,14 @@ export default function Home() {
       {/* ─── NAVBAR ─── */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/5">
         <div className="max-w-6xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
-          <a href="#" className="font-[family-name:var(--font-bebas-neue)] text-2xl tracking-wider text-white">
-            WARRIOR <span className="text-coral">STAND-UP</span>
+          <a href="#" className="flex items-center">
+            <img src="/images/logo.png" alt="Warrior Stand-Up" className="h-10" />
           </a>
           <a
             href={CTA_LINK}
             className="bg-coral hover:bg-coral-dark text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors"
           >
-            ZAPOČNI
+            {l.cta}
           </a>
         </div>
       </nav>
@@ -265,36 +477,63 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
         {/* Background image */}
         <div className="absolute inset-0">
+          {/* Desktop hero */}
           <Image
-            src="/images/hero.jpeg"
+            src="/images/hero-desktop.png"
             alt="Warrior Stand-Up Program"
             fill
-            className="object-cover object-center"
+            className="hidden md:block object-cover object-center"
+            priority
+          />
+          {/* Mobile hero */}
+          <Image
+            src="/images/hero-mobile.png"
+            alt="Warrior Stand-Up Program"
+            fill
+            className="block md:hidden object-cover object-center"
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#F15959]/20 via-transparent to-transparent" />
         </div>
 
-        {/* Content hidden for now */}
-        <div className="relative z-10 max-w-4xl mx-auto px-5 md:px-8 text-center py-24 md:py-32 hidden">
-          <h1 className="font-[family-name:var(--font-bebas-neue)] text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] tracking-wide text-white mb-6">
+        {/* Hero content */}
+        <div className="relative z-10 max-w-4xl mx-auto px-5 md:px-8 text-center py-24 md:py-32 flex flex-col items-center justify-end min-h-[80vh]">
+          <h1 className="font-[family-name:var(--font-bebas-neue)] text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.9] tracking-wide text-white mb-4">
             WARRIOR<br />
             <span className="text-coral">STAND-UP</span><br />
             PROGRAM
           </h1>
-          <p className="text-xl md:text-2xl font-semibold text-white/90 mb-4">
-            Nauči da se biješ — pravilno.
+          <p className="text-lg md:text-2xl font-semibold text-white/90 mb-3">
+            {l.heroSub}
           </p>
-          <p className="text-base md:text-lg text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Online program udaračkih borilačkih vještina od profesionalnog MMA borca
-            Miloša Cvjetićanina. 12 sedmica. Tvoj tempo. Tvoj ring.
+          <p className="text-sm md:text-base text-white/60 max-w-xl mx-auto mb-6 leading-relaxed">
+            {l.heroDesc}
           </p>
+
+          {/* Countdown timer */}
+          <div className="mb-6">
+            <p className="text-xs md:text-sm text-coral font-semibold uppercase tracking-widest mb-3">{l.offerExpires}</p>
+            <div className="flex gap-3 md:gap-4 justify-center">
+              {[
+                { value: countdown.days, label: l.days },
+                { value: countdown.hours, label: l.hours },
+                { value: countdown.minutes, label: l.min },
+                { value: countdown.seconds, label: l.sec },
+              ].map((item) => (
+                <div key={item.label} className="bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2 md:px-4 md:py-3 min-w-[60px] md:min-w-[72px]">
+                  <span className="font-[family-name:var(--font-bebas-neue)] text-2xl md:text-3xl text-white">{String(item.value).padStart(2, "0")}</span>
+                  <p className="text-[10px] md:text-xs text-white/50 tracking-wider">{item.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <a
             href={CTA_LINK}
-            className="inline-block bg-coral hover:bg-coral-dark text-white font-bold text-lg px-10 py-4 rounded-lg transition-all hover:scale-105 shadow-lg shadow-coral/25"
+            className="inline-block bg-coral hover:bg-coral-dark text-white font-bold text-base md:text-lg px-10 py-4 rounded-lg transition-all hover:scale-105 shadow-lg shadow-coral/25"
           >
-            ZAPOČNI PROGRAM
+            {l.startProgram}
           </a>
         </div>
 
@@ -309,10 +548,10 @@ export default function Home() {
       {/* ─── VSL VIDEO ─── */}
       <Section className="py-20 md:py-28 bg-black" id="video">
         <h2 className="reveal font-[family-name:var(--font-bebas-neue)] text-4xl sm:text-5xl md:text-6xl text-center text-white tracking-wide mb-4">
-          POGLEDAJ <span className="text-coral">VIDEO</span>
+          {l.watchVideo} <span className="text-coral">VIDEO</span>
         </h2>
         <p className="reveal reveal-delay-1 text-center text-white/50 text-lg mb-10 max-w-2xl mx-auto">
-          Miloš ti objašnjava šta te čeka u programu.
+          {l.videoSub}
         </p>
         <div className="reveal reveal-delay-2 max-w-3xl mx-auto">
           <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10">
@@ -329,13 +568,82 @@ export default function Home() {
         </div>
       </Section>
 
+      {/* ─── WHOP PLATFORM ─── */}
+      <Section className="py-20 md:py-28 bg-black border-t border-white/5">
+        <div>
+          <div className="reveal text-center mb-12">
+            <p className="text-sm text-white/50 mb-4 uppercase tracking-widest">
+              {l.hostedOn}{" "}
+              <Image src="/whop-logo.svg" alt="Whop" width={80} height={24} className="inline-block align-middle ml-2 h-[22px] w-auto" />
+            </p>
+            <h2 className="font-[family-name:var(--font-bebas-neue)] text-4xl sm:text-5xl md:text-6xl text-white tracking-wide mb-5">
+              {l.fullProgram}{" "}
+              <span className="text-coral">{l.onePlatform}</span>
+            </h2>
+            <p className="reveal reveal-delay-1 text-white/60 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+              {l.whopDesc}
+            </p>
+          </div>
+
+          <div className="reveal reveal-delay-2 grid md:grid-cols-2 gap-12 items-center max-w-4xl mx-auto">
+            {/* Phone mockup */}
+            <div className="flex justify-center">
+              <div className="w-[280px] rounded-[36px] overflow-hidden border-[6px] border-white/10 shadow-[0_24px_64px_rgba(0,0,0,0.5)] bg-black">
+                <video autoPlay muted loop playsInline className="w-[104%] -ml-[2%] block">
+                  <source src="/videos/whop-mockup.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
+
+            {/* Why Whop */}
+            <div>
+              <h3 className="font-[family-name:var(--font-bebas-neue)] text-2xl md:text-3xl text-white mb-8 tracking-wide">
+                {l.whyWhop} <span className="text-coral">WHOP?</span>
+              </h3>
+              <div className="flex flex-col gap-5">
+                {[
+                  {
+                    icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F15959" strokeWidth="2" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+                    title: l.secureCheckout,
+                    desc: l.secureCheckoutDesc,
+                  },
+                  {
+                    icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F15959" strokeWidth="2" strokeLinecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+                    title: l.instantAccess,
+                    desc: l.instantAccessDesc,
+                  },
+                  {
+                    icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F15959" strokeWidth="2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>,
+                    title: l.communityIncluded,
+                    desc: l.communityIncludedDesc,
+                  },
+                  {
+                    icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F15959" strokeWidth="2" strokeLinecap="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>,
+                    title: l.lifetimeAccess,
+                    desc: l.lifetimeAccessDesc,
+                  },
+                ].map((item) => (
+                  <div key={item.title} className="flex gap-4 p-5 rounded-2xl bg-white/5 border border-white/10">
+                    <div className="w-11 h-11 rounded-xl bg-coral/15 flex items-center justify-center shrink-0">{item.icon}</div>
+                    <div>
+                      <div className="text-[15px] font-bold text-white mb-1">{item.title}</div>
+                      <div className="text-[13px] text-white/50 leading-relaxed">{item.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* ─── PROBLEM ─── */}
       <Section className="py-20 md:py-28 bg-black" id="problem">
         <h2 className="reveal font-[family-name:var(--font-bebas-neue)] text-4xl sm:text-5xl md:text-6xl text-center text-white tracking-wide mb-4">
-          PRESTANI DA <span className="text-coral">GUBIŠ VRIJEME</span>
+          {l.stopWasting} <span className="text-coral">{l.wasteTime}</span>
         </h2>
         <p className="reveal reveal-delay-1 text-center text-white/50 text-lg mb-14 max-w-2xl mx-auto">
-          Ako se prepoznaješ u nečemu od ovoga, ovaj program je za tebe.
+          {l.problemSub}
         </p>
         <div className="grid sm:grid-cols-2 gap-5">
           {PAIN_POINTS.map((p, i) => (
@@ -344,7 +652,7 @@ export default function Home() {
               className={`reveal reveal-delay-${i + 2} bg-black/40 border border-white/5 rounded-xl p-6 flex items-start gap-4 hover:border-coral/30 transition-colors`}
             >
               <div className="text-coral mt-0.5 shrink-0">{p.icon}</div>
-              <p className="text-white/80 text-base leading-relaxed">{p.text}</p>
+              <p className="text-white/80 text-base leading-relaxed">{[l.pain1, l.pain2, l.pain3, l.pain4][i]}</p>
             </div>
           ))}
         </div>
@@ -364,17 +672,13 @@ export default function Home() {
           </div>
           <div>
             <h2 className="reveal font-[family-name:var(--font-bebas-neue)] text-4xl sm:text-5xl md:text-6xl text-white tracking-wide mb-6">
-              KO JE <span className="text-coral">MILOŠ CVJETIĆANIN</span>?
+              {l.whoIs} <span className="text-coral">MILOŠ CVJETIĆANIN</span>?
             </h2>
             <p className="reveal reveal-delay-1 text-white/60 text-base leading-relaxed mb-8">
-              Miloš Cvjetićanin, poznat kao CobraMMA, je profesionalni MMA borac sa više od
-              decenije iskustva u borilačkim sportovima. Sa preko 100 borbi iza sebe, Miloš
-              je prošao put od početnika do profesionalca — i sada to znanje prenosi tebi
-              kroz strukturirani online program.
+              {l.aboutP1}
             </p>
             <p className="reveal reveal-delay-2 text-white/60 text-base leading-relaxed mb-10">
-              Ovo nije teorija. Ovo je program od borca koji je bio u ringu, koji zna šta
-              funkcioniše pod pritiskom i koji te može naučiti da se biješ pravilno.
+              {l.aboutP2}
             </p>
 
             <div className="grid grid-cols-2 gap-4">
@@ -386,7 +690,7 @@ export default function Home() {
                   <div className="font-[family-name:var(--font-bebas-neue)] text-3xl text-coral mb-1">
                     {s.value}
                   </div>
-                  <div className="text-white/50 text-sm">{s.label}</div>
+                  <div className="text-white/50 text-sm">{[l.stat1, l.stat2, l.stat3, l.stat4][i]}</div>
                 </div>
               ))}
             </div>
@@ -397,10 +701,10 @@ export default function Home() {
       {/* ─── FEATURES ─── */}
       <Section className="py-20 md:py-28 bg-black" id="features">
         <h2 className="reveal font-[family-name:var(--font-bebas-neue)] text-4xl sm:text-5xl md:text-6xl text-center text-white tracking-wide mb-4">
-          ŠTA <span className="text-coral">DOBIJAŠ</span>
+          {l.whatYouGet} <span className="text-coral">{l.get}</span>
         </h2>
         <p className="reveal reveal-delay-1 text-center text-white/50 text-lg mb-14 max-w-2xl mx-auto">
-          Sve što ti treba da savladaš stand-up borbu — na jednom mjestu.
+          {l.featuresSub}
         </p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {FEATURES.map((f, i) => (
@@ -411,8 +715,8 @@ export default function Home() {
               <div className="text-coral mb-4 group-hover:scale-110 transition-transform">
                 {f.icon}
               </div>
-              <h3 className="text-white font-bold text-lg mb-2">{f.title}</h3>
-              <p className="text-white/50 text-sm leading-relaxed">{f.desc}</p>
+              <h3 className="text-white font-bold text-lg mb-2">{[l.feat1Title, l.feat2Title, l.feat3Title, l.feat4Title, l.feat5Title, l.feat6Title][i]}</h3>
+              <p className="text-white/50 text-sm leading-relaxed">{[l.feat1Desc, l.feat2Desc, l.feat3Desc, l.feat4Desc, l.feat5Desc, l.feat6Desc][i]}</p>
             </div>
           ))}
         </div>
@@ -421,10 +725,10 @@ export default function Home() {
       {/* ─── HOW IT WORKS ─── */}
       <Section className="py-20 md:py-28 bg-black" id="steps">
         <h2 className="reveal font-[family-name:var(--font-bebas-neue)] text-4xl sm:text-5xl md:text-6xl text-center text-white tracking-wide mb-4">
-          KAKO <span className="text-coral">FUNKCIONIŠE</span>
+          {l.howItWorks} <span className="text-coral">{l.works}</span>
         </h2>
         <p className="reveal reveal-delay-1 text-center text-white/50 text-lg mb-14 max-w-2xl mx-auto">
-          Tri jednostavna koraka do tvoje transformacije.
+          {l.stepsSub}
         </p>
         <div className="grid md:grid-cols-3 gap-8">
           {STEPS.map((s, i) => (
@@ -432,9 +736,9 @@ export default function Home() {
               <div className="font-[family-name:var(--font-bebas-neue)] text-7xl text-coral/20 mb-2">
                 {s.num}
               </div>
-              <h3 className="text-white font-bold text-xl mb-3">{s.title}</h3>
+              <h3 className="text-white font-bold text-xl mb-3">{[l.step1Title, l.step2Title, l.step3Title][i]}</h3>
               <p className="text-white/50 text-sm leading-relaxed max-w-xs mx-auto">
-                {s.desc}
+                {[l.step1Desc, l.step2Desc, l.step3Desc][i]}
               </p>
             </div>
           ))}
@@ -446,10 +750,10 @@ export default function Home() {
       {/* ─── PRICING ─── */}
       <Section className="py-20 md:py-28 bg-black" id="pricing">
         <h2 className="reveal font-[family-name:var(--font-bebas-neue)] text-4xl sm:text-5xl md:text-6xl text-center text-white tracking-wide mb-4">
-          PRIDRUŽI SE <span className="text-coral">WARRIOR PROGRAMU</span>
+          {l.joinWarrior} <span className="text-coral">{l.warriorProgram}</span>
         </h2>
         <p className="reveal reveal-delay-1 text-center text-white/50 text-lg mb-14 max-w-2xl mx-auto">
-          Jednokratna uplata. Doživotni pristup. Bez skrivenih troškova.
+          {l.pricingSub}
         </p>
 
         <div className="reveal reveal-delay-2 max-w-lg mx-auto bg-dark-gray/50 border border-coral/20 rounded-2xl p-8 md:p-10">
@@ -458,7 +762,7 @@ export default function Home() {
               <span className="text-coral">&euro;49</span>
               <span className="text-2xl text-white/40">.99</span>
             </div>
-            <p className="text-white/40 text-sm">jednokratna uplata</p>
+            <p className="text-white/40 text-sm">{l.oneTimePayment}</p>
           </div>
 
           <ul className="space-y-3 mb-10">
@@ -467,7 +771,7 @@ export default function Home() {
                 <svg className="w-5 h-5 text-coral shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
-                {f}
+                {[l.pf1, l.pf2, l.pf3, l.pf4, l.pf5, l.pf6, l.pf7, l.pf8][i]}
               </li>
             ))}
           </ul>
@@ -485,7 +789,7 @@ export default function Home() {
       {/* ─── FAQ ─── */}
       <Section className="py-20 md:py-28 bg-black" id="faq">
         <h2 className="reveal font-[family-name:var(--font-bebas-neue)] text-4xl sm:text-5xl md:text-6xl text-center text-white tracking-wide mb-14">
-          ČESTA <span className="text-coral">PITANJA</span>
+          {l.faqTitle} <span className="text-coral">{l.faqHighlight}</span>
         </h2>
         <div className="max-w-3xl mx-auto space-y-3">
           {FAQS.map((faq, i) => (
@@ -494,7 +798,7 @@ export default function Home() {
               className={`reveal reveal-delay-${Math.min(i + 1, 7)} group bg-dark-gray/40 border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition-colors`}
             >
               <summary className="flex items-center justify-between p-5 md:p-6 text-white font-semibold text-base md:text-lg">
-                {faq.q}
+                {[l.faq1q, l.faq2q, l.faq3q, l.faq4q, l.faq5q, l.faq6q, l.faq7q, l.faq8q][i]}
                 <svg
                   className="faq-chevron w-5 h-5 shrink-0 ml-4 text-coral transition-transform duration-200"
                   fill="none"
@@ -506,7 +810,7 @@ export default function Home() {
                 </svg>
               </summary>
               <div className="faq-body px-5 pb-5 md:px-6 md:pb-6 text-white/50 text-sm leading-relaxed">
-                {faq.a}
+                {[l.faq1a, l.faq2a, l.faq3a, l.faq4a, l.faq5a, l.faq6a, l.faq7a, l.faq8a][i]}
               </div>
             </details>
           ))}
@@ -518,15 +822,13 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-left">
-              <div className="font-[family-name:var(--font-bebas-neue)] text-2xl tracking-wider text-white mb-1">
-                WARRIOR <span className="text-coral">STAND-UP</span>
-              </div>
-              <p className="text-white/30 text-sm">powered by MoneyPlugLab</p>
+              <img src="/images/logo.png" alt="Warrior Stand-Up" className="h-10 mb-1" />
+              <p className="text-white/30 text-sm">powered by <a href="https://money-plug.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white/50 transition-colors underline">MoneyPlugLab</a></p>
             </div>
 
             <div className="flex items-center gap-6">
               {/* Instagram placeholder */}
-              <a href="#" className="text-white/40 hover:text-coral transition-colors" aria-label="Instagram">
+              <a href="https://www.instagram.com/cvjeticaninmilos/" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-coral transition-colors" aria-label="Instagram">
                 <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
                 </svg>
@@ -548,7 +850,7 @@ export default function Home() {
 
           <div className="mt-8 pt-6 border-t border-white/5 text-center">
             <p className="text-white/20 text-sm">
-              &copy; {new Date().getFullYear()} Warrior Stand-Up Program. Sva prava zadržana.
+              &copy; {new Date().getFullYear()} {l.footerRights}
             </p>
           </div>
         </div>

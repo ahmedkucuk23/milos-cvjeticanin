@@ -28,34 +28,40 @@ export default function HvalaPage() {
         </div>
 
         <h1 className="font-[family-name:var(--font-bebas-neue)] text-5xl md:text-6xl lg:text-7xl text-white tracking-wide mb-4">
-          HVALA TI, <span className="text-coral">WARRIOR.</span>
+          HVALA TI, <span className="text-coral">WARRIOR. 🎉</span>
         </h1>
 
         <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-10 max-w-lg mx-auto">
-          Tvoja uplata je uspješna i pristup programu{" "}
-          <strong className="text-white">Warrior Stand-Up Program</strong>{" "}
-          ti je odmah dostupan.
+          Upravo si napravio najbolju odluku za sebe. Dobrodošao u{" "}
+          <strong className="text-white">Warrior Stand-Up</strong> porodicu!
         </p>
 
-        {/* What happens next */}
+        {/* Steps */}
         <div className="bg-dark-gray/50 border border-white/10 rounded-2xl p-8 md:p-10 text-left mb-10">
-          <h2 className="font-[family-name:var(--font-bebas-neue)] text-3xl md:text-4xl text-white tracking-wide mb-6 text-center">
-            ŠTA DALJE?
+          <h2 className="font-[family-name:var(--font-bebas-neue)] text-3xl md:text-4xl text-white tracking-wide mb-8 text-center">
+            SLJEDEĆI KORACI:
           </h2>
 
-          <div className="space-y-6">
+          <div className="space-y-8">
             <div className="flex items-start gap-4">
               <div className="w-8 h-8 rounded-full bg-coral/20 flex items-center justify-center shrink-0 mt-0.5">
                 <span className="text-coral font-bold text-sm">1</span>
               </div>
               <div>
                 <h3 className="text-white font-semibold text-lg mb-1">
-                  Provjeri email
+                  Skini Whop aplikaciju
                 </h3>
-                <p className="text-white/50 leading-relaxed">
-                  Na email ti stiže potvrda kupnje i link za pristup svim
-                  materijalima. Provjeri i spam folder.
+                <p className="text-white/50 leading-relaxed mb-3">
+                  Sav sadržaj programa se nalazi na Whop platformi. Skini aplikaciju na telefon za najbolje iskustvo.
                 </p>
+                <div className="flex gap-3">
+                  <a href="https://apps.apple.com/us/app/whop/id1600181492" target="_blank" rel="noopener noreferrer" className="inline-block bg-white/10 hover:bg-white/15 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                    App Store
+                  </a>
+                  <a href="https://play.google.com/store/apps/details?id=com.whop.app" target="_blank" rel="noopener noreferrer" className="inline-block bg-white/10 hover:bg-white/15 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                    Google Play
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -65,11 +71,10 @@ export default function HvalaPage() {
               </div>
               <div>
                 <h3 className="text-white font-semibold text-lg mb-1">
-                  Pristupi programu
+                  Uloguj se sa istim emailom
                 </h3>
                 <p className="text-white/50 leading-relaxed">
-                  Ulogiraj se na platformu i kreni sa prvom sedmicom. Sve lekcije
-                  su dostupne odmah — idi svojim tempom.
+                  Koristi isti email s kojim si kupio program. To je jedini način da ti se automatski otključa pristup svemu.
                 </p>
               </div>
             </div>
@@ -80,11 +85,38 @@ export default function HvalaPage() {
               </div>
               <div>
                 <h3 className="text-white font-semibold text-lg mb-1">
+                  Kreni redom kroz module
+                </h3>
+                <p className="text-white/50 leading-relaxed">
+                  Program je podijeljen u module i lekcije. Kreni od Modula 1 i idi redom. Svaka lekcija ima video objašnjenje — pogledaj ga prije nego kreneš.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="w-8 h-8 rounded-full bg-coral/20 flex items-center justify-center shrink-0 mt-0.5">
+                <span className="text-coral font-bold text-sm">4</span>
+              </div>
+              <div>
+                <h3 className="text-white font-semibold text-lg mb-1">
+                  Vježbaj uz video lekcije
+                </h3>
+                <p className="text-white/50 leading-relaxed">
+                  Svaka tehnika ima detaljno video objašnjenje. Pogledaj, pa vježbaj. Ponavljanje je ključ — tu je prava transformacija.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="w-8 h-8 rounded-full bg-coral/20 flex items-center justify-center shrink-0 mt-0.5">
+                <span className="text-coral font-bold text-sm">5</span>
+              </div>
+              <div>
+                <h3 className="text-white font-semibold text-lg mb-1">
                   Pridruži se zajednici
                 </h3>
                 <p className="text-white/50 leading-relaxed">
-                  Uđi u privatnu zajednicu gdje možeš postavljati pitanja,
-                  dijeliti napredak i dobiti podršku od Miloša i ostalih polaznika.
+                  Unutar Whop aplikacije imaš pristup zatvorenoj grupi. Predstavi se, postavi pitanja, i poveži se sa ostalim članovima. Nisi sam u ovome!
                 </p>
               </div>
             </div>
