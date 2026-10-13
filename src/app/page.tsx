@@ -2,8 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import { loadWhop } from "@whop/elements";
+import { Checkout, CheckoutElement, WhopElements } from "@whop/elements-react";
 
-const CHECKOUT_LINK = "https://whop.com/checkout/plan_PLACEHOLDER";
+const CTA_LINK = "#pricing";
 
 /* ─── Scroll reveal hook ─── */
 function useReveal() {
@@ -219,6 +221,29 @@ const STATS = [
    ═══════════════════════════════════════════ */
 
 export default function Home() {
+  const checkoutFired = useRef(false);
+
+  // Fire InitiateCheckout when pricing section becomes visible
+  useEffect(() => {
+    const el = document.getElementById("pricing");
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !checkoutFired.current) {
+          checkoutFired.current = true;
+          (window as any).fbq?.("track", "InitiateCheckout", {
+            content_name: "Warrior Stand-Up Program",
+            currency: "EUR",
+            value: 49.99,
+          });
+        }
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       {/* ─── NAVBAR ─── */}
@@ -228,7 +253,7 @@ export default function Home() {
             WARRIOR <span className="text-coral">STAND-UP</span>
           </a>
           <a
-            href={CHECKOUT_LINK}
+            href={CTA_LINK}
             className="bg-coral hover:bg-coral-dark text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors"
           >
             ZAPOČNI
@@ -266,7 +291,7 @@ export default function Home() {
             Miloša Cvjetićanina. 12 sedmica. Tvoj tempo. Tvoj ring.
           </p>
           <a
-            href={CHECKOUT_LINK}
+            href={CTA_LINK}
             className="inline-block bg-coral hover:bg-coral-dark text-white font-bold text-lg px-10 py-4 rounded-lg transition-all hover:scale-105 shadow-lg shadow-coral/25"
           >
             ZAPOČNI PROGRAM
@@ -447,12 +472,13 @@ export default function Home() {
             ))}
           </ul>
 
-          <a
-            href={CHECKOUT_LINK}
-            className="block w-full text-center bg-coral hover:bg-coral-dark text-white font-bold text-lg py-4 rounded-lg transition-all hover:scale-[1.02] shadow-lg shadow-coral/20"
-          >
-            ZAPOČNI PROGRAM
-          </a>
+          <div className="mt-2">
+            <WhopElements elements={loadWhop()}>
+              <Checkout plan="plan_X5w94LuMarxni" returnUrl="https://warriorstandup.com/hvala">
+                <CheckoutElement />
+              </Checkout>
+            </WhopElements>
+          </div>
         </div>
       </Section>
 
@@ -495,7 +521,7 @@ export default function Home() {
               <div className="font-[family-name:var(--font-bebas-neue)] text-2xl tracking-wider text-white mb-1">
                 WARRIOR <span className="text-coral">STAND-UP</span>
               </div>
-              <p className="text-white/30 text-sm">by Miloš Cvjetićanin (CobraMMA)</p>
+              <p className="text-white/30 text-sm">powered by MoneyPlugLab</p>
             </div>
 
             <div className="flex items-center gap-6">
@@ -531,7 +557,7 @@ export default function Home() {
       {/* ─── STICKY MOBILE CTA (hidden for now) ─── */}
       {/* <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-black/95 backdrop-blur-md border-t border-white/10 p-3">
         <a
-          href={CHECKOUT_LINK}
+          href={CTA_LINK}
           className="block w-full text-center bg-coral hover:bg-coral-dark text-white font-bold text-base py-3.5 rounded-lg transition-colors shadow-lg shadow-coral/20"
         >
           ZAPOČNI PROGRAM — &euro;49.99
