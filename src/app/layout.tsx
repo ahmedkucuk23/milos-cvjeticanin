@@ -21,30 +21,30 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://warriorstandup.com"),
   title: {
     default:
-      "Warrior Stand-Up Program — Online MMA program od Miloša Cvjetićanina",
+      "Warrior Stand-Up Program — Online kickboxing program od Miloša Cvjetićanina",
     template: "%s | Warrior Stand-Up Program",
   },
   description:
-    "Nauči da se biješ pravilno. Online program udaračkih borilačkih vještina od profesionalnog MMA borca. 12 sedmica strukturiranog treninga. Tvoj tempo. Tvoj ring.",
+    "Nauči da se biješ pravilno. Online program udaračkih borilačkih vještina od profesionalnog kickboxera. 12 sedmica strukturiranog treninga. Tvoj tempo. Tvoj ring.",
   keywords: [
-    "MMA program",
+    "kickboxing program",
     "stand-up borba",
     "borilačke vještine",
     "kickboxing",
     "online trening",
     "Miloš Cvjetićanin",
-    "CobraMMA",
+    "GLORY kickboxing",
     "warrior program",
     "udaračke tehnike",
-    "MMA trening online",
+    "kickboxing trening online",
     "borilački sportovi",
   ],
   authors: [{ name: "Miloš Cvjetićanin" }],
   creator: "Miloš Cvjetićanin",
   openGraph: {
-    title: "Warrior Stand-Up Program — Online MMA program",
+    title: "Warrior Stand-Up Program — Online kickboxing program",
     description:
-      "Nauči da se biješ pravilno. 12 sedmica strukturiranog MMA treninga od profesionalnog borca.",
+      "Nauči da se biješ pravilno. 12 sedmica strukturiranog kickboxing treninga od profesionalnog borca.",
     url: "https://warriorstandup.com",
     siteName: "Warrior Stand-Up Program",
     locale: "sr_Latn",
@@ -60,9 +60,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Warrior Stand-Up Program — Online MMA program",
+    title: "Warrior Stand-Up Program — Online kickboxing program",
     description:
-      "Nauči da se biješ pravilno. 12 sedmica strukturiranog MMA treninga od profesionalnog borca.",
+      "Nauči da se biješ pravilno. 12 sedmica strukturiranog kickboxing treninga od profesionalnog borca.",
     images: ["/images/og-image.jpg"],
   },
   icons: {

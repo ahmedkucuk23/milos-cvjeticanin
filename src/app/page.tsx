@@ -53,9 +53,9 @@ const t = {
     pain3: "Nemaš pristup kvalitetnom treneru",
     pain4: "Ne znaš šta vježbati i kojim redom",
     whoIs: "KO JE",
-    aboutP1: "Miloš Cvjetićanin, poznat kao CobraMMA, je profesionalni MMA borac sa više od decenije iskustva u borilačkim sportovima. Sa preko 100 borbi iza sebe, Miloš je prošao put od početnika do profesionalca — i sada to znanje prenosi tebi kroz strukturirani online program.",
+    aboutP1: "Miloš Cvjetićanin je profesionalni kickboxer koji se bori u GLORY-u, sa više od decenije iskustva u borilačkim sportovima. Sa preko 100 borbi iza sebe, Miloš je prošao put od početnika do profesionalca — i sada to znanje prenosi tebi kroz strukturirani online program.",
     aboutP2: "Ovo nije teorija. Ovo je program od borca koji je bio u ringu, koji zna šta funkcioniše pod pritiskom i koji te može naučiti da se biješ pravilno.",
-    stat1: "godina u borilačkim sportovima", stat2: "profesionalni MMA borac", stat3: "borbi u karijeri", stat4: "pristup programu",
+    stat1: "godina u borilačkim sportovima", stat2: "profesionalni kickboxer", stat3: "borbi u karijeri", stat4: "pristup programu",
     whatYouGet: "ŠTA",
     get: "DOBIJAŠ",
     featuresSub: "Sve što ti treba da savladaš stand-up borbu — na jednom mjestu.",
@@ -133,9 +133,9 @@ const t = {
     pain3: "No access to a quality coach",
     pain4: "Don't know what to practice or in what order",
     whoIs: "WHO IS",
-    aboutP1: "Miloš Cvjetićanin, known as CobraMMA, is a professional MMA fighter with over a decade of experience in martial arts. With over 100 fights under his belt, Miloš has gone from beginner to professional — and now passes that knowledge to you through a structured online program.",
+    aboutP1: "Miloš Cvjetićanin is a professional kickboxer competing in GLORY, with over a decade of experience in martial arts. With over 100 fights under his belt, Miloš has gone from beginner to professional — and now passes that knowledge to you through a structured online program.",
     aboutP2: "This isn't theory. This is a program from a fighter who's been in the ring, who knows what works under pressure, and who can teach you to fight the right way.",
-    stat1: "years in martial arts", stat2: "professional MMA fighter", stat3: "fights in career", stat4: "access to program",
+    stat1: "years in martial arts", stat2: "professional kickboxer", stat3: "fights in career", stat4: "access to program",
     whatYouGet: "WHAT YOU",
     get: "GET",
     featuresSub: "Everything you need to master stand-up fighting — in one place.",
@@ -420,7 +420,7 @@ const FAQS = [
 
 const STATS = [
   { value: "10+", label: "godina u borilačkim sportovima" },
-  { value: "PRO", label: "profesionalni MMA borac" },
+  { value: "PRO", label: "profesionalni kickboxer" },
   { value: "100+", label: "borbi u karijeri" },
   { value: "24/7", label: "pristup programu" },
 ];
@@ -696,7 +696,7 @@ export default function Home() {
           <div className="reveal relative aspect-[3/4] rounded-2xl overflow-hidden">
             <Image
               src="/images/milos-stance.png"
-              alt="Miloš Cvjetićanin - profesionalni MMA borac"
+              alt="Miloš Cvjetićanin - profesionalni kickboxer"
               fill
               className="object-cover"
             />
