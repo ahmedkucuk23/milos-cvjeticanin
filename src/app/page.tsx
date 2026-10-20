@@ -185,19 +185,13 @@ const t = {
   },
 };
 
-/* ─── Countdown hook (7 days from first visit) ─── */
+/* ─── Countdown hook (fixed deadline: 21 Oct 2026 00:00 CET) ─── */
 function useCountdown() {
-  const [timeLeft, setTimeLeft] = useState({ days: 7, hours: 0, minutes: 0, seconds: 0 });
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const STORAGE_KEY = "warrior_countdown_end";
-    let endTime = localStorage.getItem(STORAGE_KEY);
-    if (!endTime) {
-      const end = Date.now() + 7 * 24 * 60 * 60 * 1000;
-      localStorage.setItem(STORAGE_KEY, String(end));
-      endTime = String(end);
-    }
-    const deadline = Number(endTime);
+    // 21 October 2026 at 00:00:00 CET (UTC+1)
+    const deadline = new Date("2026-10-21T00:00:00+01:00").getTime();
 
     const tick = () => {
       const diff = Math.max(0, deadline - Date.now());
