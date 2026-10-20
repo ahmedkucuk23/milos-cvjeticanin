@@ -185,13 +185,13 @@ const t = {
   },
 };
 
-/* ─── Countdown hook (fixed deadline: 21 Oct 2026 00:00 CET) ─── */
+/* ─── Countdown hook (fixed deadline: 23 Oct 2026 00:00 CET) ─── */
 function useCountdown() {
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [timeLeft, setTimeLeft] = useState({ days: 2, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    // 21 October 2026 at 00:00:00 CET (UTC+1)
-    const deadline = new Date("2026-10-21T00:00:00+01:00").getTime();
+    // 23 October 2026 at 00:00:00 CET (UTC+1)
+    const deadline = new Date("2026-10-23T00:00:00+01:00").getTime();
 
     const tick = () => {
       const diff = Math.max(0, deadline - Date.now());
