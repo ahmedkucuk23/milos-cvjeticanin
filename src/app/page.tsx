@@ -2,8 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { loadWhop } from "@whop/elements";
-import { Checkout, CheckoutElement, WhopElements } from "@whop/elements-react";
 
 const CTA_LINK = "#pricing";
 
@@ -803,11 +801,10 @@ export default function Home() {
           </ul>
 
           <div className="mt-2">
-            <WhopElements elements={loadWhop()}>
-              <Checkout plan="plan_X5w94LuMarxni" returnUrl="https://warriorstandup.com/hvala">
-                <CheckoutElement />
-              </Checkout>
-            </WhopElements>
+            <div className="bg-white/10 border-2 border-white/20 rounded-2xl py-6 px-8 text-center">
+              <p className="text-3xl font-bold text-white mb-2">SOLD OUT</p>
+              <p className="text-white/50 text-sm">Sva mjesta su popunjena. Hvala na interesu!</p>
+            </div>
           </div>
         </div>
       </Section>

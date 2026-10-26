@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { loadWhop } from "@whop/elements";
-import { Checkout, CheckoutElement, WhopElements } from "@whop/elements-react";
 
 type QuizQuestion =
   | { type: "choice"; question: string; options: string[]; layout?: "row" }
@@ -762,11 +760,10 @@ export default function Funnel() {
               ))}
             </div>
 
-            <WhopElements elements={loadWhop()}>
-              <Checkout plan="plan_X5w94LuMarxni" returnUrl="https://warriorstandup.com/hvala">
-                <CheckoutElement />
-              </Checkout>
-            </WhopElements>
+            <div style={{ background: "rgba(255,255,255,0.1)", border: "2px solid rgba(255,255,255,0.2)", borderRadius: 16, padding: "24px 32px", textAlign: "center" }}>
+              <p style={{ fontSize: 28, fontWeight: 700, color: "#fff", marginBottom: 8 }}>SOLD OUT</p>
+              <p style={{ fontSize: 14, color: "var(--text-muted)" }}>Sva mjesta su popunjena. Hvala na interesu!</p>
+            </div>
           </div>
 
           {/* Guarantee */}
